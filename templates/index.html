@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diabetes Risk Predictor</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .container {
+            max-width: 600px;
+            margin: auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+        label {
+            margin: 10px 0 5px;
+            font-weight: bold;
+        }
+        input[type="number"], input[type="submit"] {
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        input[type="submit"] {
+            background-color: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        input[type="submit"]:hover {
+            background-color: #218838;
+        }
+        .prediction {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #e9ecef;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            text-align: center;
+            font-weight: bold;
+        }
+        .low-risk {
+            background-color: #d4edda;
+            color: #155724;
+            border: 1px solid #c3e6cb;
+        }
+        .high-risk {
+            background-color: #f8d7da;
+            color: #721c24;
+            border: 1px solid #f5c6cb;
+        }
+        .error {
+            color: red;
+            font-weight: bold;
+            margin-top: 10px;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #666;
+        }
+        .example {
+            font-style: italic;
+            color: #888;
+            font-size: 0.9em;
+        }
+        /* Tooltip styles */
+        .tooltip {
+            position: relative;
+            display: inline-block;
+            cursor: pointer;
+        }
+        .tooltip .tooltiptext {
+            visibility: hidden;
+            width: 200px;
+            background-color: #555;
+            color: #fff;
+            text-align: center;
+            border-radius: 6px;
+            padding: 5px 0;
+            position: absolute;
+            z-index: 1;
+            bottom: 125%; /* Position the tooltip above the text */
+            left: 50%;
+            margin-left: -100px; /* Center the tooltip */
+            opacity: 0;
+            transition: opacity 0.3s;
+        }
+        .tooltip:hover .tooltiptext {
+            visibility: visible;
+            opacity: 1;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Diabetes Risk Predictor</h1>
+        <div id="prediction" class="prediction"></div>
+        <form id="riskForm" action="{{ url_for('predict') }}" method="post">
+            <div class="error" id="error-message"></div>
+            <label for="pregnancies" class="tooltip">Pregnancies:
+                <span class="tooltiptext">Enter the number of times pregnant</span>
+            </label>
+            <input type="number" id="pregnancies" name="pregnancies" placeholder="Enter number of pregnancies" required>
+            <div class="example" id="pregnancies-example" style="display:none;">Example: 2</div>
+            
+            <label for="glucose" class="tooltip">Glucose:
+                <span class="tooltiptext">Enter your glucose level in mg/dL</span>
+            </label>
+            <input type="number" id="glucose" name="glucose" placeholder="Enter glucose level" required>
+            <div class="example" id="glucose-example" style="display:none;">Example: 120</div>
+            
+            <label for="blood_pressure" class="tooltip">Blood Pressure:
+                <span class="tooltiptext">Enter your blood pressure in mmHg                </span>
+            </label>
+            <input type="number" id="blood_pressure" name="blood_pressure" placeholder="Enter blood pressure" required>
+            <div class="example" id="blood_pressure-example" style="display:none;">Example: 70</div>
+            
+            <label for="skin_thickness" class="tooltip">Skin Thickness:
+                <span class="tooltiptext">Enter your skin thickness in mm</span>
+            </label>
+            <input type="number" id="skin_thickness" name="skin_thickness" placeholder="Enter skin thickness" required>
+            <div class="example" id="skin_thickness-example" style="display:none;">Example: 20</div>
+            
+            <label for="insulin" class="tooltip">Insulin:
+                <span class="tooltiptext">Enter your insulin level in µU/mL</span>
+            </label>
+            <input type="number" id="insulin" name="insulin" placeholder="Enter insulin level" required>
+            <div class="example" id="insulin-example" style="display:none;">Example: 80</div>
+            
+            <label for="bmi" class="tooltip">BMI:
+                <span class="tooltiptext">Enter your Body Mass Index</span>
+            </label>
+            <input type="number" id="bmi" name="bmi" placeholder="Enter BMI" step="0.1" required>
+            <div class="example" id="bmi-example" style="display:none;">Example: 25.5</div>
+            
+            <label for="diabetes_pedigree_function" class="tooltip">Diabetes Pedigree Function:
+                <span class="tooltiptext">Enter the diabetes pedigree function score</span>
+            </label>
+            <input type="number" id="diabetes_pedigree_function" name="diabetes_pedigree_function" placeholder="Enter pedigree function" step="0.001" required>
+            <div class="example" id="diabetes_pedigree_function-example" style="display:none;">Example: 0.5</div>
+            
+            <label for="age" class="tooltip">Age:
+                <span class="tooltiptext">Enter your age in years</span>
+            </label>
+            <input type="number" id="age" name="age" placeholder="Enter age" required>
+            <div class="example" id="age-example" style="display:none;">Example: 30</div>
+            
+            <input type="submit" value="Predict">
+
+        </form>
+    </div>
+    <div class="footer">
+        <p>&copy; 2024 Diabetes Risk Predictor. All rights reserved.</p>
+    </div>
+
+    <script>
+        // Hiện example khi được focused
+        const inputFields = [
+            'pregnancies',
+            'glucose',
+            'blood_pressure',
+            'skin_thickness',
+            'insulin',
+            'bmi',
+            'diabetes_pedigree_function',
+            'age'
+        ];
+
+        inputFields.forEach(field => {
+            const input = document.getElementById(field);
+            const example = document.getElementById(`${field}-example`);
+
+            input.addEventListener('focus', function() {
+                example.style.display = 'block';
+            });
+
+            input.addEventListener('blur', function() {
+                example.style.display = 'none';
+            });
+        });
+
+    
+        document.getElementById('riskForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            document.getElementById('error-message').innerText = '';
+
+            const pregnancies = parseInt(document.getElementById('pregnancies').value);
+            const glucose = parseFloat(document.getElementById('glucose').value);
+            const bloodPressure = parseFloat(document.getElementById('blood_pressure').value);
+            const skinThickness = parseFloat(document.getElementById('skin_thickness').value);
+            const insulin = parseFloat(document.getElementById('insulin').value);
+            const bmi = parseFloat(document.getElementById('bmi').value);
+            const pedigreeFunction = parseFloat(document.getElementById('diabetes_pedigree_function').value);
+            const age = parseInt(document.getElementById('age').value);
+            
+            // Validate
+            if (pregnancies < 0 || glucose < 0 || bloodPressure < 0 || skinThickness < 0 || insulin < 0 || bmi < 0 || pedigreeFunction < 0 || age < 0) {
+                document.getElementById('error-message').innerText = 'Please enter valid non-negative values for all fields.';
+                return;
+            }
+            const formData = new FormData(this);
+            
+            fetch('/predict', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => response.json())
+            .then(data => {
+                const predictionElement = document.getElementById('prediction');
+                predictionElement.textContent = data.prediction;
+                predictionElement.className = 'prediction ' + 
+                    (data.prediction.includes('High risk') ? 'high-risk' : 'low-risk');
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                document.getElementById('prediction').textContent = 'An error occurred. Please try again.';
+            });
+        });
+    </script>
+</body>
+</html>
