@@ -4,7 +4,7 @@ from model import DiabetesModel
 from file_io import load_users, save_users, load_predictions, save_predictions
 import numpy as np  
 
-from datetime import datetime  # Import datetime to handle timestamps
+from datetime import datetime
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'ATI_FINAL'
 
