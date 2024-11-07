@@ -1,0 +1,92 @@
+{% extends "base.html" %}
+
+{% block title %}User  Dashboard{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h2 class="mt-4">Welcome, {{ current_user.email }}!</h2>
+    
+    <h2 class="mt-4">Model Information</h2>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Diabetes Prediction Model</h5>
+            <p class="card-text">
+                This model uses a Decision Tree Classifier to predict the risk of diabetes based on various health metrics. 
+                The model was trained on a dataset containing information about patients, including:
+            </p>
+            <ul>
+                <li>Number of Pregnancies</li>
+                <li>Glucose Level</li>
+                <li>Blood Pressure</li>
+                <li>Skin Thickness</li>
+                <li>Insulin Level</li>
+                <li>BMI</li>
+                <li>Diabetes Pedigree Function</li>
+                <li>Age</li>
+            </ul>
+            <p>
+                The model aims to assist healthcare professionals in identifying individuals at high risk for diabetes, enabling early intervention and management.
+            </p>
+        </div>
+    </div>
+
+    <h2 class="mt-4">Your Prediction History</h2>
+    
+    {% if predictions %}
+    <div class="prediction-table-container">
+        <table class="table table-striped prediction-table">
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Prediction Result</th>
+                    <th>Created At</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for prediction in predictions %}
+                <tr>
+                    <td>{{ prediction.id }}</td>
+                    <td>{{ prediction.prediction_result }}</td>
+                    <td>{{ prediction.created_at }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% else %}
+        <p>You have not made any predictions yet.</p>
+    {% endif %}
+
+    <h2 class="mt-4">Model Performance Metrics</h2>
+    <div class="metrics-table-container">
+        <table class="table table-striped metrics-table">
+            <thead>
+                <tr>
+                    <th>Metric</th>
+                    <th>Value</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>Accuracy</td>
+                    <td>{{ accuracy }}</td>
+                </tr>
+                <tr>
+                    <td>Precision</td>
+                    <td>{{ report['1']['precision'] }}</td>
+                </tr>
+                <tr>
+                    <td>Recall</td>
+                    <td>{{ report['1']['recall'] }}</td>
+                </tr>
+                <tr>
+                    <td>F1 Score</td>
+                    <td>{{ report['1']['f1-score'] }}</td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <a class="btn btn-primary mt-3" href="{{ url_for('predict') }}">Make a New Prediction</a>
+</div>
+{% endblock %}

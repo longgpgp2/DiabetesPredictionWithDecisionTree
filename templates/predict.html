@@ -1,0 +1,88 @@
+{% extends "base.html" %}
+
+{% block title %}Diabetes Risk Predictor{% endblock %}
+
+{% block content %}
+<div class="container">
+    <h1>Diabetes Risk Predictor</h1>
+    <div id="prediction" class="prediction"></div>
+    <form id="riskForm" action="{{ url_for('predict') }}" method="post">
+        <div class="error" id="error-message"></div>
+        
+        <div class="form-row">
+            <div class="form-group">
+                <label for="pregnancies" class="tooltip">Pregnancies:
+                    <span class="tooltiptext">Enter the number of times pregnant</span>
+                </label>
+                <input type="number" id="pregnancies" name="pregnancies" placeholder="Enter number of pregnancies" required>
+                <div class="example" id="pregnancies-example" style="display:none;">Example: 2</div>
+            </div>
+
+            <div class="form-group">
+                <label for="glucose" class="tooltip">Glucose:
+                    <span class="tooltiptext">Enter your glucose level in mg/dL</span>
+                </label>
+                <input type="number" id="glucose" name="glucose" placeholder="Enter glucose level" required>
+                <div class="example" id="glucose-example" style="display:none;">Example: 120</div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="blood_pressure" class="tooltip">Blood Pressure:
+                    <span class="tooltiptext">Enter your blood pressure in mmHg</span>
+                </label>
+                <input type="number" id="blood_pressure" name="blood_pressure" placeholder="Enter blood pressure" required>
+                <div class="example" id="blood_pressure-example" style="display:none;">Example: 70</div>
+            </div>
+
+            <div class="form-group">
+                <label for="skin_thickness" class="tooltip">Skin Thickness:
+                    <span class="tooltiptext">Enter your skin thickness in mm</span>
+                </label>
+                <input type="number" id="skin_thickness" name="skin_thickness" placeholder="Enter skin thickness" required>
+                <div class="example" id="skin_thickness-example" style="display:none;">Example: 20</div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="insulin" class="tooltip">Insulin:
+                    <span class="tooltiptext">Enter your insulin level in µU/mL</span>
+                </label>
+                <input type="number" id="insulin" name="insulin" placeholder="Enter insulin level" required>
+                <div class="example" id="insulin-example" style="display:none;">Example: 80</div>
+            </div>
+
+            <div class="form-group">
+                <label for="bmi" class="tooltip">BMI:
+                    <span class="tooltiptext">Enter your Body Mass Index</span>
+                </label>
+                <input type="number" id="bmi" name="bmi" placeholder="Enter BMI" step="0.1" required>
+                <div class="example" id="bmi-example" style="display:none;">Example: 25.5</div>
+            </div>
+        </div>
+
+        <div class="form-row">
+            <div class="form-group">
+                <label for="diabetes_pedigree_function" class="tooltip">Diabetes Pedigree Function:
+                    <span class="tooltiptext">Enter the diabetes pedigree function score</span>
+                </label>
+                <input type="number" id="diabetes_pedigree_function" name="diabetes_pedigree_function" placeholder="Enter pedigree function" step="0.001" required>
+                <div class="example" id="diabetes_pedigree_function-example" style="display:none;">Example: 0.5</div>
+            </div>
+
+            <div class="form-group">
+                <label for="age" class="tooltip">Age:
+                    <span class="tooltiptext">Enter your age in years</span>
+                </label>
+                <input type="number" id="age" name="age" placeholder="Enter age" required>
+                <div class="example" id="age-example" style="display:none;">Example : 30</div>
+            </div>
+        </div>
+        
+        <input type="submit" value="Predict">
+    </form>
+    
+</div>
+{% endblock %}
