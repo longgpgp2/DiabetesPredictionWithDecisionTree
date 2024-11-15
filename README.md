@@ -5,10 +5,6 @@
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Features](#features)
-- [Contributing](#contributing)
-- [License](#license)
-- [Contact](#contact)
 
 ## Project Overview
 The Diabetes Prediction Web Application is designed to empower users to assess their risk of developing diabetes based on various health metrics. By leveraging machine learning algorithms, the application provides immediate feedback and insights, promoting awareness and encouraging proactive health management. This project aims to bridge the gap between complex medical data and everyday users, making health information accessible and actionable.
@@ -26,7 +22,7 @@ To set up the Diabetes Prediction Web Application locally, follow these steps:
 1. **Clone the repository**:
    ```bash
    https://github.com/longgpgp2/DiabetesPredictionWithDecisionTree.git
-1. **Install the dependencies**:
+2. **Install the dependencies**:
    ```bash
    pip install -r requirements.txt
 ## Usage
