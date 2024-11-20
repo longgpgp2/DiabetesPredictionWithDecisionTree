@@ -193,6 +193,48 @@ input[type="submit"]:hover {
     margin-right: 0;
 }
 
+.modal-header {
+    background: linear-gradient(45deg, #007bff, #0056b3);
+    color: white;
+}
+
+.modal-content {
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.2);
+}
+
+.modal-footer {
+    background-color: #f8f9fa;
+}
+
+.text-success {
+    color: #28a745 !important;
+    font-weight: bold;
+}
+
+.text-danger {
+    color: #dc3545 !important;
+    font-weight: bold;
+}
+
+.modal-content {
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.modal-high-risk {
+    background-color: #f8d7da;
+    color: #721c24;
+    border: 2px solid #f5c6cb;
+}
+
+.modal-low-risk {
+    background-color: #d4edda;
+    color: #155724;
+    border: 2px solid #c3e6cb;
+}
+
 @media (max-width: 768px) {
     .form-row {
         flex-direction: column;

@@ -83,6 +83,23 @@
         
         <input type="submit" value="Predict">
     </form>
+    <div class="modal" id="resultModal" style="display: none;">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content" id="modalContent">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="modalTitle"></h5>
+                    <button type="button" id="closeModalButton" class="btn-close"></button>
+                </div>
+                <div class="modal-body text-center" id="modalBody"></div>
+                <div class="modal-footer justify-content-center">
+                    <button type="button" id="footerCloseButton" class="btn btn-secondary px-4">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    
+
     
 </div>
 {% endblock %}

@@ -21,6 +21,12 @@ inputFields.forEach(field => {
         example.style.display = 'none';
     });
 });
+document.getElementById('closeModalButton').addEventListener('click', function () {
+    const modal = bootstrap.Modal.getInstance(document.getElementById('resultModal'));
+    modal.hide();
+    document.getElementById('resultModal').classList.remove('show');
+
+});
 
 document.getElementById('riskForm').addEventListener('submit', function (e) {
     e.preventDefault();
@@ -53,24 +59,47 @@ document.getElementById('riskForm').addEventListener('submit', function (e) {
             return response.json();
         })
         .then(data => {
-            const predictionElement = document.getElementById('prediction');
+            const modal = document.getElementById('resultModal');
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const modalContent = document.getElementById('modalContent');
 
-            predictionElement.textContent = '';
-            predictionElement.className = 'prediction';
+            modalContent.className = 'modal-content';
 
             if (data.error) {
-                predictionElement.textContent = `Error: ${data.error}`;
-                predictionElement.className = 'error';
+                modalTitle.textContent = 'Error';
+                modalBody.innerHTML = `<p class="text-danger">${data.error}</p>`;
+                modalContent.classList.add('modal-high-risk');
             } else {
-                predictionElement.textContent = `Prediction: ${data.prediction}`;
-                predictionElement.className = 'prediction ' +
-                    (data.prediction.includes('High risk') ? 'high-risk' : 'low-risk');
+                modalTitle.textContent = 'Prediction Result';
+                modalBody.innerHTML = `<p class="fw-bold">${data.prediction}</p>`;
+                modalContent.classList.add(data.prediction === 'High risk' ? 'modal-high-risk' : 'modal-low-risk');
             }
+
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden';
         })
         .catch(error => {
             console.error('Error:', error);
-            const predictionElement = document.getElementById('prediction');
-            predictionElement.textContent = 'An error occurred while processing your request. Please try again.';
-            predictionElement.className = 'error';
+            const modalTitle = document.getElementById('modalTitle');
+            const modalBody = document.getElementById('modalBody');
+            const modal = new bootstrap.Modal(document.getElementById('resultModal'));
+
+            modalTitle.textContent = 'Error';
+            modalBody.innerHTML = '<p class="text-danger">An error occurred while processing your request. Please try again.</p>';
+            modal.show();
         });
+
+});
+
+document.getElementById('closeModalButton').addEventListener('click', function () {
+    const modal = document.getElementById('resultModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
+});
+
+document.getElementById('footerCloseButton').addEventListener('click', function () {
+    const modal = document.getElementById('resultModal');
+    modal.style.display = 'none';
+    document.body.style.overflow = '';
 });
